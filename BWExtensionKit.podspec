@@ -26,7 +26,7 @@ Pod::Spec.new do |spec|
   spec.ios.deployment_target = "9.0"
   spec.source       = { :git => "https://github.com/BWLi420/BWExtensionKit.git", :tag => "#{spec.version}" }
 
-  spec.source_files  = "Classes/*", "Classes/**/*.{h,m}"
+  spec.source_files  = "BWExtensionKit/**/*.{h,m}"
   # spec.exclude_files = "Classes/Exclude"
   # spec.public_header_files = "Classes/**/*.h"
 
@@ -46,8 +46,7 @@ Pod::Spec.new do |spec|
   # spec.dependency "JSONKit", "~> 1.4"
 
   spec.subspec "Category" do |cg|
-    cg.public_header_files = "Classes/Category/BWCategory.h"
-    cg.source_files = "Classes/Category/*.{h,m}"
+    cg.source_files = "BWExtensionKit/Category"
     cg.frameworks   = "Security"
   end
 end

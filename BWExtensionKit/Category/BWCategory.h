@@ -8,7 +8,7 @@
 #if __has_include(<BWExtensionKit/Category.h>)
 
 //Foundation
-//#import <BWExtensionKit/NSObject+BWExtension.h>
+#import <BWExtensionKit/NSObject+BWExtension.h>
 #import <BWExtensionKit/NSArray+BWExtension.h>
 //UIKit
 #import <BWExtensionKit/UIView+BWExtension.h>
@@ -20,7 +20,7 @@
 #else
 
 //Foundation
-//#import "NSObject+BWExtension.h"
+#import "NSObject+BWExtension.h"
 #import "NSArray+BWExtension.h"
 //UIKit
 #import "UIView+BWExtension.h"
