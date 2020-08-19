@@ -20,7 +20,7 @@
 #else
 
 //Foundation
-#import "NSObject+BWExtension.h"
+//#import "NSObject+BWExtension.h"
 #import "NSArray+BWExtension.h"
 //UIKit
 #import "UIView+BWExtension.h"

@@ -26,4 +26,4 @@ pod 'BWExtensionKit'
 
 ## License
 
-BWSelfKit is available under the MIT license. See the LICENSE file for more info.
+BWExtensionKit is available under the MIT license. See the LICENSE file for more info.
