@@ -1,0 +1,16 @@
+PODS:
+  - BWExtensionKit/Category (0.0.1)
+
+DEPENDENCIES:
+  - BWExtensionKit/Category
+
+SPEC REPOS:
+  trunk:
+    - BWExtensionKit
+
+SPEC CHECKSUMS:
+  BWExtensionKit: 7480868d32c61ff99549e118f49718579dbd2b21
+
+PODFILE CHECKSUM: 14184c758defa6dfa5e6e27662a1d2ecfbbcdc74
+
+COCOAPODS: 1.9.3
