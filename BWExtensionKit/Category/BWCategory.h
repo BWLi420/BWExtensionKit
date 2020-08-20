@@ -16,6 +16,11 @@
 #import <BWExtensionKit/UIImage+BWExtension.h>
 #import <BWExtensionKit/UIApplication+BWExtension.h>
 #import <BWExtensionKit/UIDevice+BWExtension.h>
+#import <BWExtensionKit/UIButton+BWExtension.h>
+#import <BWExtensionKit/UITextField+BWExtension.h>
+#import <BWExtensionKit/UITextView+BWExtension.h>
+#import <BWExtensionKit/UIScreen+BWExtension.h>
+#import <BWExtensionKit/UIWindow+BWExtension.h>
 
 #else
 
@@ -28,4 +33,9 @@
 #import "UIImage+BWExtension.h"
 #import "UIApplication+BWExtension.h"
 #import "UIDevice+BWExtension.h"
+#import "UIButton+BWExtension.h"
+#import "UITextField+BWExtension.h"
+#import "UITextView+BWExtension.h"
+#import "UIScreen+BWExtension.h"
+#import "UIWindow+BWExtension.h"
 #endif

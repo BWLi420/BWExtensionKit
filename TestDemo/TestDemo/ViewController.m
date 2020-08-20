@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import <BWExtensionKit/BWExtensionKit.h>
 
 @interface ViewController ()
 
@@ -16,7 +17,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    UIButton *btn1 = [UIButton bw_setTitle:@"哈哈哈哈" image:@"图片1"];
+    [btn1 bw_setImagePosition:BWImagePositionTop spacing:0];
+    [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    btn1.frame = CGRectMake(100, 50, 100, 25);
+    [self.view addSubview:btn1];
 }
 
 

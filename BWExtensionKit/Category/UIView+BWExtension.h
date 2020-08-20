@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat bw_width;
 /// 高度
 @property (nonatomic, assign) CGFloat bw_height;
+/// 大小
+@property (nonatomic, assign) CGSize bw_size;
 /// 中心点 X
 @property (nonatomic, assign) CGFloat bw_centerX;
 /// 中心点 X

@@ -1,16 +1,18 @@
 PODS:
+  - BWExtensionKit (0.0.1):
+    - BWExtensionKit/Category (= 0.0.1)
   - BWExtensionKit/Category (0.0.1)
 
 DEPENDENCIES:
-  - BWExtensionKit/Category
+  - BWExtensionKit (from `../`)
 
-SPEC REPOS:
-  trunk:
-    - BWExtensionKit
+EXTERNAL SOURCES:
+  BWExtensionKit:
+    :path: "../"
 
 SPEC CHECKSUMS:
   BWExtensionKit: 7480868d32c61ff99549e118f49718579dbd2b21
 
-PODFILE CHECKSUM: 14184c758defa6dfa5e6e27662a1d2ecfbbcdc74
+PODFILE CHECKSUM: 21c85f8b81d60566495adf0a5c62e0eee3d3a4e3
 
 COCOAPODS: 1.9.3

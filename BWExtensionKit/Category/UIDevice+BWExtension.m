@@ -7,6 +7,7 @@
 
 #import "UIDevice+BWExtension.h"
 #import <sys/utsname.h>
+#import <sys/mount.h>
 #import <AdSupport/AdSupport.h>
 #import <Security/Security.h>
 #import "UIApplication+BWExtension.h"
@@ -154,6 +155,28 @@
     }
     
     return NO;
+}
+
++ (long long)bw_freeDiskSpaceBytes {
+    
+    struct statfs buf;
+    long long freespace;
+    freespace = 0;
+    if ( statfs("/private/var", &buf) >= 0 ) {
+        freespace = (long long)buf.f_bsize * buf.f_bfree;
+    }
+    return freespace;
+}
+
++ (long long)bw_totalDiskSpaceBytes {
+    
+    struct statfs buf;
+    long long totalspace;
+    totalspace = 0;
+    if ( statfs("/private/var", &buf) >= 0 ) {
+        totalspace = (long long)buf.f_bsize * buf.f_blocks;
+    }
+    return totalspace;
 }
 
 + (NSString *)bw_idfa {

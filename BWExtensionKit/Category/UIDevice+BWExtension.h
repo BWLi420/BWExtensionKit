@@ -23,7 +23,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// 是否为刘海屏
 + (BOOL)bw_bangsScreen;
 
-/// 广告唯一标识（可能为nil）
+/// 剩余空间大小，字节
++ (long long)bw_freeDiskSpaceBytes;
+
+/// 总空间大小，字节
++ (long long)bw_totalDiskSpaceBytes;
+
+/// 广告唯一标识（可能为空）
 + (NSString *)bw_idfa;
 
 /// 开发者应用标识（1.同一账号下的App，同一设备相同，不同设备不同；2.不同账号不同）

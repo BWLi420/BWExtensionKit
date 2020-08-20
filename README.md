@@ -1,9 +1,9 @@
-# BWSelfKit
+# BWExtensionKit
 
-[![CI Status](https://img.shields.io/travis/Mortal_Master/BWSelfKit.svg?style=flat)](https://travis-ci.org/Mortal_Master/BWSelfKit)
-[![Version](https://img.shields.io/cocoapods/v/BWSelfKit.svg?style=flat)](https://cocoapods.org/pods/BWSelfKit)
-[![License](https://img.shields.io/cocoapods/l/BWSelfKit.svg?style=flat)](https://cocoapods.org/pods/BWSelfKit)
-[![Platform](https://img.shields.io/cocoapods/p/BWSelfKit.svg?style=flat)](https://cocoapods.org/pods/BWSelfKit)
+[![CI Status](https://img.shields.io/travis/BWLi420/BWExtensionKit.svg?style=flat)](https://travis-ci.org/BWLi420/BWExtensionKit)
+[![Version](https://img.shields.io/cocoapods/v/BWExtensionKit.svg?style=flat)](https://cocoapods.org/pods/BWExtensionKit)
+[![License](https://img.shields.io/cocoapods/l/BWExtensionKit.svg?style=flat)](https://cocoapods.org/pods/BWExtensionKit)
+[![Platform](https://img.shields.io/cocoapods/p/BWExtensionKit.svg?style=flat)](https://cocoapods.org/pods/BWExtensionKit)
 
 ## Example
 

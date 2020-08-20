@@ -82,6 +82,18 @@
     return self.frame.size.height;
 }
 
+- (void)setBw_size:(CGSize)bw_size {
+    
+    CGRect frame = self.frame;
+    frame.size = bw_size;
+    self.frame = frame;
+}
+
+- (CGSize)bw_size {
+    
+    return self.frame.size;
+}
+
 - (void)setBw_centerX:(CGFloat)bw_centerX {
     
     CGPoint center = self.center;
