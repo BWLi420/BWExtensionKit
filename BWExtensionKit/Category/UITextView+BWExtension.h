@@ -11,6 +11,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UITextView (BWExtension)
 
+/// 占位符
+@property (nonatomic, copy) NSString *bw_placeHolder;
+/// 占位符颜色 默认：灰色
+@property (nonatomic, strong) UIColor *bw_placeHolderColor;
+/// IQKeyboardManager 等第三方框架会读取placeholder属性，创建 UIToolbar 展示
+//@property (nonatomic, copy) NSString *placeholder;
+
 /// 选中所有文本
 - (void)bw_selectAllText;
 
