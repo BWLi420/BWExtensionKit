@@ -30,12 +30,12 @@ NS_ASSUME_NONNULL_BEGIN
 + (long long)bw_totalDiskSpaceBytes;
 
 /// 广告唯一标识（可能为空）
-+ (NSString *)bw_idfa;
++ (NSString * _Nullable)bw_idfa;
 
 /// 开发者应用标识（1.同一账号下的App，同一设备相同，不同设备不同；2.不同账号不同）
 + (NSString *)bw_idfv;
 
-/// 设备唯一标识（第一次获取成功后保存到 KeyChain，后续从 KeyChain 中取值）(⚠️Capabilities 中打开 KeyChain，添加你的 bundleID.bwuuid，例：com.ss.xxx.bwuuid)
+/// 设备唯一标识（第一次获取成功后保存到 KeyChain，后续从 KeyChain 中取值）
 + (NSString *)bw_uuid;
 
 @end

@@ -17,10 +17,16 @@ typedef NS_ENUM(NSInteger, BWImagePosition) {
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^ClickAction)(UIButton *btn);
+
 @interface UIButton (BWExtension)
 
 /// 设置额外区域
 @property (nonatomic, assign) UIEdgeInsets bw_touchAreaInsets;
+
+/// 点击事件
+/// @param action 点击回调
+- (void)bw_actionBlock:(ClickAction)action;
 
 /// 更改图片文字位置（⚠️1.需先设置图片和文字再调用此方法，2.按钮理论上应不小于 图片大小 + 文字大小 + spacing）
 /// @param position 图片位置枚举

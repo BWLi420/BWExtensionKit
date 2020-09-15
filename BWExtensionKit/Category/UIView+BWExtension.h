@@ -39,6 +39,15 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param corners 位置（UIRectCorner）
 - (void)bw_setCornerRadius:(CGFloat)radius roundingCorners:(UIRectCorner)corners;
 
+/// 设置边框
+/// @param color 颜色，默认宽度为 1
+- (void)bw_setBorderClocor:(UIColor *)color;
+
+/// 设置边框
+/// @param width 宽度
+/// @param color 颜色
+- (void)bw_setBorderClocor:(UIColor *)color borderWidth:(CGFloat)width;
+
 @end
  
 NS_ASSUME_NONNULL_END

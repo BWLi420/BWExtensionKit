@@ -11,6 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UITextField (BWExtension)
 
+/// 占位文本颜色
+@property (nonatomic, strong) UIColor *bw_PlaceholderColor;
+
 /// 选中所有文本
 - (void)bw_selectAllText;
 

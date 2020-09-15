@@ -197,14 +197,16 @@
 + (NSString *)bw_uuid {
     
     NSString *service = [[UIApplication bw_bundleID] stringByAppendingString:@".bwuuid"];
-    if ([[self bw_getUUID:service] bw_isEmpty]) {
+    
+    NSString *uuid = [NSString bw_cast:[self bw_getUUID:service]];
+    if (uuid == nil) {
         
         NSString *uuid = [NSUUID UUID].UUIDString;
         [self bw_save:service value:uuid];
         return uuid;
     } else {
         
-        return [NSString bw_cast:[self bw_getUUID:service]];
+        return uuid;
     }
 }
 
@@ -222,7 +224,7 @@
     
     NSMutableDictionary *keychainQuery = [self bw_getKeychainQuery:service];
     
-    NSData *data = [value dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:value];
     [keychainQuery setObject:data forKey:(id)kSecValueData];
     
     OSStatus status = SecItemAdd((CFDictionaryRef)keychainQuery, NULL);

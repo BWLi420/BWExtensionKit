@@ -6,7 +6,6 @@
 //
 
 #import "UIView+BWExtension.h"
-#import "NSObject+BWExtension.h"
 
 @implementation UIView (BWExtension)
 
@@ -125,7 +124,7 @@
         [self bw_setCornerRadius:radius roundingCorners:UIRectCornerAllCorners];
     } else {
         
-        if (self.bw_width == 0 || self.bw_height == 0) {
+        if (self.bounds.size.width == 0 || self.bounds.size.height == 0) {
             
             self.layer.cornerRadius = radius;
             self.layer.masksToBounds = YES;
@@ -133,9 +132,9 @@
             
             CGRect rect = self.bounds;
             
-            if ([UIImageView bw_has:self]) {
+            if ([self isKindOfClass:[UIImageView class]]) {
                 
-                UIImageView *imageView = [UIImageView bw_cast:self];
+                UIImageView *imageView = (UIImageView *)self;
                 
                 UIGraphicsBeginImageContextWithOptions(rect.size, NO, [UIScreen mainScreen].scale);
                 CGContextRef contextRef = UIGraphicsGetCurrentContext();
@@ -225,6 +224,16 @@
         layer.path = path.CGPath;
         self.layer.mask = layer;
     }
+}
+
+- (void)bw_setBorderClocor:(UIColor *)color {
+    [self bw_setBorderClocor:color borderWidth:1];
+}
+
+- (void)bw_setBorderClocor:(UIColor *)color borderWidth:(CGFloat)width {
+    
+    self.layer.borderWidth = width;
+    self.layer.borderColor = color.CGColor;
 }
 
 @end

@@ -8,6 +8,8 @@
 #import "UIButton+BWExtension.h"
 #import <objc/runtime.h>
 
+static const char clickTag;
+
 @implementation UIButton (BWExtension)
 
 - (void)bw_setImagePosition:(BWImagePosition)position spacing:(CGFloat)spacing {
@@ -91,6 +93,20 @@
     [btn bw_setTitle:title image:image forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     return btn;
+}
+
+- (void)bw_actionBlock:(ClickAction)action {
+    
+    objc_setAssociatedObject(self, &clickTag, action, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    [self addTarget:self action:@selector(clickAction:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)clickAction:(UIButton *)btn {
+    
+    ClickAction block = (ClickAction)objc_getAssociatedObject(self, &clickTag);
+    if (block) {
+        block(btn);
+    }
 }
 
 @end

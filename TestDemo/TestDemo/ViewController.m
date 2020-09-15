@@ -23,6 +23,20 @@
     [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     btn1.frame = CGRectMake(100, 50, 100, 25);
     [self.view addSubview:btn1];
+    
+    [btn1 bw_actionBlock:^(UIButton * _Nonnull btn) {
+        NSLog(@"%@", btn);
+    }];
+    
+    NSLog(@"uuid --- %@", [UIDevice bw_uuid]);
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSLog(@"uuid --- %@", [UIDevice bw_uuid]);
+        NSLog(@"idfa --- %@", [UIDevice bw_idfa]);
+        NSLog(@"idfv --- %@", [UIDevice bw_idfv]);
+    });
+    
+    
+    
 }
 
 

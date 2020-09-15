@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)bw_superClassName;
 
 /// 是否为空值
-- (BOOL)bw_isEmpty;
+//- (BOOL)bw_isEmpty;
 
 @end
 

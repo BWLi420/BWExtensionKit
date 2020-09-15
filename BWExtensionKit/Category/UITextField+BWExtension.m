@@ -9,6 +9,21 @@
 
 @implementation UITextField (BWExtension)
 
+- (void)setBw_PlaceholderColor:(UIColor *)bw_PlaceholderColor {
+    
+    if (self.placeholder.length <= 0) {
+        self.placeholder = @" ";
+    }
+    UILabel *label = [self valueForKeyPath:@"placeholderLabel"];
+    label.textColor = bw_PlaceholderColor;
+}
+
+- (UIColor *)bw_PlaceholderColor {
+    
+    UILabel *label = [self valueForKeyPath:@"placeholderLabel"];
+    return label.textColor;
+}
+
 - (void)bw_selectAllText {
     
     UITextRange *range = [self textRangeFromPosition:self.beginningOfDocument toPosition:self.endOfDocument];
