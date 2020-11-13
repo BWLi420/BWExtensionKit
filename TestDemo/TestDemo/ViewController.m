@@ -7,7 +7,8 @@
 //
 
 #import "ViewController.h"
-#import <BWExtensionKit/BWExtensionKit.h>
+#import <BWExtensionKit.h>
+#import <JJException/JJException.h>
 
 @interface ViewController ()
 
@@ -31,7 +32,9 @@
     NSLog(@"uuid --- %@", [UIDevice bw_uuid]);
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         NSLog(@"uuid --- %@", [UIDevice bw_uuid]);
-        NSLog(@"idfa --- %@", [UIDevice bw_idfa]);
+        [UIDevice bw_idfa:^(NSString * _Nullable idfa) {
+            NSLog(@"idfa --- %@", idfa);
+        }];
         NSLog(@"idfv --- %@", [UIDevice bw_idfv]);
     });
     

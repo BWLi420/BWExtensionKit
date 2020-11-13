@@ -9,6 +9,7 @@
 #import <sys/utsname.h>
 #import <sys/mount.h>
 #import <AdSupport/AdSupport.h>
+#import <AppTrackingTransparency/AppTrackingTransparency.h>
 #import <Security/Security.h>
 #import "UIApplication+BWExtension.h"
 #import "NSObject+BWExtension.h"
@@ -179,14 +180,33 @@
     return totalspace;
 }
 
-+ (NSString *)bw_idfa {
++ (void)bw_idfa:(void(^)(NSString * _Nullable idfa))comption {
     
-    if ([ASIdentifierManager sharedManager].isAdvertisingTrackingEnabled) {
+    __block NSString *idfa = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];
+    
+    if (!idfa || [idfa isEqualToString:@"00000000-0000-0000-0000-000000000000"]) {
         
-        return [ASIdentifierManager sharedManager].advertisingIdentifier.UUIDString;
+        if (@available(iOS 14, *)) {
+            
+            if (ATTrackingManager.trackingAuthorizationStatus == ATTrackingManagerAuthorizationStatusAuthorized) {
+                
+                idfa = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];
+                if (comption) {
+                    comption(idfa);
+                }
+            }
+        }
+    } else {
+        
+        if (comption) {
+            comption(idfa);
+        }
     }
-    // 00000000-0000-0000-0000-000000000000
-    return @"";
+        //    if ([ASIdentifierManager sharedManager].isAdvertisingTrackingEnabled) {
+        
+//        idfa = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];
+        //    }
+        // 00000000-0000-0000-0000-000000000000
 }
 
 + (NSString *)bw_idfv {
@@ -225,6 +245,7 @@
     NSMutableDictionary *keychainQuery = [self bw_getKeychainQuery:service];
     
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:value];
+    
     [keychainQuery setObject:data forKey:(id)kSecValueData];
     
     OSStatus status = SecItemAdd((CFDictionaryRef)keychainQuery, NULL);

@@ -28,6 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// 父类名
 - (NSString *)bw_superClassName;
 
+/// 方法交换
+/// @param systemMethod 系统方法
+/// @param newMethod 自定义方法
+- (BOOL)bw_swizzleSystemMethod:(SEL)systemMethod newMethod:(SEL)newMethod;
+
 /// 是否为空值
 //- (BOOL)bw_isEmpty;
 

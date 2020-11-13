@@ -6,6 +6,7 @@
 //
 
 #import "NSObject+BWExtension.h"
+#import <objc/runtime.h>
 
 @implementation NSObject (BWExtension)
 
@@ -49,6 +50,27 @@
 - (NSString *)bw_superClassName {
     
     return NSStringFromClass([self superclass]);
+}
+
+- (BOOL)bw_swizzleSystemMethod:(SEL)systemMethod newMethod:(SEL)newMethod {
+    
+    Method sys = class_getClassMethod([self class], systemMethod);
+    if (!sys) {
+        return NO;
+    }
+    
+    Method new = class_getClassMethod([self class], newMethod);
+    if (!new) {
+        return NO;
+    }
+    
+    if (class_addMethod([self class], systemMethod, method_getImplementation(new), method_getTypeEncoding(new))) {
+        class_replaceMethod([self class], newMethod, method_getImplementation(sys), method_getTypeEncoding(sys));
+    } else {
+        method_exchangeImplementations(sys, new);
+    }
+    
+    return YES;
 }
 
 - (BOOL)bw_isEmpty {

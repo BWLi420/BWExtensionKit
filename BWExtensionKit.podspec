@@ -48,5 +48,8 @@ Pod::Spec.new do |spec|
   spec.subspec "Category" do |cg|
     cg.source_files = "BWExtensionKit/Category"
     cg.frameworks   = "Security"
+    cg.dependency "JJException"
   end
+  
+  spec.dependency "JJException"
 end

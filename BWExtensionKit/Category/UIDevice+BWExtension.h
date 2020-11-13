@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (long long)bw_totalDiskSpaceBytes;
 
 /// 广告唯一标识（可能为空）
-+ (NSString * _Nullable)bw_idfa;
++ (void)bw_idfa:(void(^)(NSString * _Nullable idfa))comption;
 
 /// 开发者应用标识（1.同一账号下的App，同一设备相同，不同设备不同；2.不同账号不同）
 + (NSString *)bw_idfv;
