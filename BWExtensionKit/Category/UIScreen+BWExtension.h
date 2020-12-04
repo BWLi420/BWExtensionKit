@@ -7,6 +7,11 @@
 
 #import <UIKit/UIKit.h>
 
+/// 屏幕宽
+#define BW_ScreenWidth [UIScreen bw_width]
+/// 屏幕高
+#define BW_ScreenHeight [UIScreen bw_height]
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UIScreen (BWExtension)

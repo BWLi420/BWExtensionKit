@@ -1,9 +1,12 @@
 //
-//  BWCategory.h
-//  BWSelfKit
+//  BWCategoryHeader.h
+//  BWExtensionKit
 //
 //  Created by BowenLi on 2020/8/17.
 //
+
+#ifndef BWCategoryHeader_h
+#define BWCategoryHeader_h
 
 //Foundation
 #import <BWExtensionKit/NSObject+BWExtension.h>
@@ -19,4 +22,6 @@
 #import <BWExtensionKit/UIScreen+BWExtension.h>
 #import <BWExtensionKit/UIWindow+BWExtension.h>
 #import <BWExtensionKit/UIBarButtonItem+BWExtension.h>
+
+#endif /* BWCategoryHeader_h */
 

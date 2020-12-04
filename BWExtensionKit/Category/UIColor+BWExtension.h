@@ -1,18 +1,19 @@
 //
 //  UIColor+BWExtension.h
-//  BWSelfKit
+//  BWExtensionKit
 //
 //  Created by BowenLi on 2020/8/17.
 //
 
 #import <UIKit/UIKit.h>
 
+/// RGB 颜色 0～255
 #define BW_RGB(r, g, b) [UIColor bw_Red:r Green:g Blue:b]
-
+/// RGB 颜色 0～255 透明度 0～1
 #define BW_RGBA(r, g, b, a) [UIColor bw_Red:r Green:g Blue:b alpha:a]
-
+/// 十六进制颜色 例:0xFFFFFF
 #define BW_HexColor(hexValue) [UIColor bw_hexColor:hexValue]
-
+/// 十六进制颜色 透明度 0～1 例:(0xFFFFFF, 0.5)
 #define BW_HexColorA(hexValue, alpha) [UIColor bw_hexColor:hexValue alpha:alpha]
 
 typedef NS_ENUM(NSInteger, BWGradientStyle) {

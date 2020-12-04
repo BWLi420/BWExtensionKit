@@ -1,11 +1,14 @@
 //
 //  UIApplication+BWExtension.h
-//  BWSelfKit
+//  BWExtensionKit
 //
 //  Created by BowenLi on 2020/8/18.
 //
 
 #import <UIKit/UIKit.h>
+
+/// 状态栏高度
+#define BW_StatusHeight [UIApplication bw_statusHeight]
 
 typedef NS_ENUM(NSInteger, BWCheakUpdateType) {
     // 不需要更新
@@ -28,6 +31,9 @@ typedef void(^bwCheakAppUpdateResult)(NSString * _Nullable storeUrl, NSString * 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UIApplication (BWExtension)
+
+/// 状态栏高度
++ (CGFloat)bw_statusHeight;
 
 /// 名称
 + (NSString *)bw_appName;

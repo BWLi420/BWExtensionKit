@@ -1,6 +1,6 @@
 //
 //  UIView+BWExtension.m
-//  BWSelfKit
+//  BWExtensionKit
 //
 //  Created by BowenLi on 2020/8/17.
 //
@@ -166,6 +166,8 @@
 //        UIRectCornerBottomRight = 1 << 3,     8
         
         self.layer.cornerRadius = radius;
+        self.layer.masksToBounds = YES;
+        
         switch (corners) {
             case UIRectCornerAllCorners:
             case 15:

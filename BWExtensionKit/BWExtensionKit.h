@@ -1,8 +1,10 @@
 //
 //  Header.h
-//  BWSelfKit
+//  BWExtensionKit
 //
 //  Created by BowenLi on 2020/8/19.
 //
 
-#import <BWExtensionKit/BWCategory.h>
+#import <BWExtensionKit/BWCategoryHeader.h>
+#import <BWExtensionKit/BWClassHeader.h>
+

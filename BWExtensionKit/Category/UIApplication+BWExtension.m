@@ -1,6 +1,6 @@
 //
 //  UIApplication+BWExtension.m
-//  BWSelfKit
+//  BWExtensionKit
 //
 //  Created by BowenLi on 2020/8/18.
 //
@@ -8,6 +8,11 @@
 #import "UIApplication+BWExtension.h"
 
 @implementation UIApplication (BWExtension)
+
++ (CGFloat)bw_statusHeight {
+    
+    return [UIApplication sharedApplication].statusBarFrame.size.height;
+}
 
 + (NSString *)bw_appName {
     

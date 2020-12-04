@@ -1,6 +1,6 @@
 //
 //  UIDevice+BWExtension.m
-//  BWSelfKit
+//  BWExtensionKit
 //
 //  Created by BowenLi on 2020/8/18.
 //
@@ -214,11 +214,6 @@
             comption(idfa);
         }
     }
-        //    if ([ASIdentifierManager sharedManager].isAdvertisingTrackingEnabled) {
-        
-//        idfa = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];
-        //    }
-        // 00000000-0000-0000-0000-000000000000
 }
 
 + (NSString *)bw_idfv {

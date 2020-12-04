@@ -1,42 +1,19 @@
 PODS:
   - BWExtensionKit (0.0.1):
     - BWExtensionKit/Category (= 0.0.1)
-    - JJException
-  - BWExtensionKit/Category (0.0.1):
-    - JJException
-  - JJException (0.2.9):
-    - JJException/All (= 0.2.9)
-  - JJException/All (0.2.9):
-    - JJException/ARC
-    - JJException/DeallocBlock
-    - JJException/Main
-    - JJException/MRC
-    - JJException/Swizzle
-  - JJException/ARC (0.2.9):
-    - JJException/DeallocBlock
-    - JJException/Main
-    - JJException/Swizzle
-  - JJException/DeallocBlock (0.2.9)
-  - JJException/Main (0.2.9)
-  - JJException/MRC (0.2.9):
-    - JJException/Main
-    - JJException/Swizzle
-  - JJException/Swizzle (0.2.9)
+    - BWExtensionKit/ReplaceClass (= 0.0.1)
+  - BWExtensionKit/Category (0.0.1)
+  - BWExtensionKit/ReplaceClass (0.0.1)
 
 DEPENDENCIES:
   - BWExtensionKit (from `../`)
-
-SPEC REPOS:
-  trunk:
-    - JJException
 
 EXTERNAL SOURCES:
   BWExtensionKit:
     :path: "../"
 
 SPEC CHECKSUMS:
-  BWExtensionKit: 620760279be393594000815a92dea5a1392c0751
-  JJException: da7c64ccf29d9938a4075378a7e9a29db7383c37
+  BWExtensionKit: 7e321c712b4bb11bc01ae301be51bccd08e6c9b4
 
 PODFILE CHECKSUM: 122aec01a2532fdb2453f5db66765bbc55b5fc5a
 

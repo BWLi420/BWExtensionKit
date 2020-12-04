@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIWindow (BWExtension)
 
-/// 当前展示的 ViewController
+/// 当前展示的顶层视图
 - (UIViewController *)bw_currentViewController;
 @end
 

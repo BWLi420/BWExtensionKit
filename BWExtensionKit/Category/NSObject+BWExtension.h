@@ -1,6 +1,6 @@
 //
 //  NSObject+BWExtension.h
-//  BWSelfKit
+//  BWExtensionKit
 //
 //  Created by BowenLi on 2020/8/17.
 //
