@@ -46,17 +46,14 @@ Pod::Spec.new do |spec|
   # spec.dependency "JSONKit", "~> 1.4"
 
   spec.subspec "Category" do |cg|
-    cg.source_files = "BWExtensionKit/Category"
+    cg.source_files = "BWExtensionKit/Category/*.{h,m}"
     cg.frameworks   = "Security"
   end
   
-  spec.subspec "Third" do |th|
-    th.source_files = "BWExtensionKit/BWThird"
-    
-    th.subspec "BWMHud" do |mu|
-      mu.source_files = "BWExtensionKit/BWThird/MHUD"
-      mu.dependency "MBProgressHUD"
-    end
+  spec.subspec "MHud" do |mu|
+    mu.source_files = "BWExtensionKit/MHud/*.{h,m}"
+    mu.dependency "MBProgressHUD"
+    mu.frameworks = "UIKit", "Foundation"
   end
   
   # 依赖库

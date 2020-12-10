@@ -22,7 +22,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 - 需要 MBProgressHUD 封装
 
     ```ruby
-    pod 'BWExtensionKit/Third/BWMHud'
+    pod 'BWExtensionKit/MHud'
     ```
 
     

@@ -9,7 +9,6 @@ target 'TestDemo' do
   use_frameworks!
   
   pod 'BWExtensionKit', :path => '../'
-  # pod 'BWExtensionKit'
   # pod 'BWExtensionKit/Category'
   
 #  pod 'SVProgressHUD'

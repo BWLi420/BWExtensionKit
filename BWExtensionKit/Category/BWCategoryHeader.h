@@ -19,9 +19,11 @@
 #import <BWExtensionKit/UIButton+BWExtension.h>
 #import <BWExtensionKit/UITextField+BWExtension.h>
 #import <BWExtensionKit/UITextView+BWExtension.h>
+#import <BWExtensionKit/UITableViewCell+BWExtension.h>
 #import <BWExtensionKit/UIScreen+BWExtension.h>
 #import <BWExtensionKit/UIWindow+BWExtension.h>
 #import <BWExtensionKit/UIBarButtonItem+BWExtension.h>
+#import <BWExtensionKit/UINavigationController+BWExtension.h>
 
 #endif /* BWCategoryHeader_h */
 
