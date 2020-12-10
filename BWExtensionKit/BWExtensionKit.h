@@ -6,5 +6,5 @@
 //
 
 #import <BWExtensionKit/BWCategoryHeader.h>
-#import <BWExtensionKit/BWClassHeader.h>
+#import <BWExtensionKit/BWThirdHeader.h>
 

@@ -13,12 +13,19 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Installation
 
-BWExtensionKit is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+- 需要 Category
 
-```ruby
-pod 'BWExtensionKit'
-```
+    ```ruby
+    pod 'BWExtensionKit/Category'
+    ```
+
+- 需要 MBProgressHUD 封装
+
+    ```ruby
+    pod 'BWExtensionKit/Third/BWMHud'
+    ```
+
+    
 
 ## Author
 

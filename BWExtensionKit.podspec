@@ -50,8 +50,13 @@ Pod::Spec.new do |spec|
     cg.frameworks   = "Security"
   end
   
-  spec.subspec "ReplaceClass" do |rc|
-    rc.source_files = "BWExtensionKit/BWClass"
+  spec.subspec "Third" do |th|
+    th.source_files = "BWExtensionKit/BWThird"
+    
+    th.subspec "BWMHud" do |mu|
+      mu.source_files = "BWExtensionKit/BWThird/MHUD"
+      mu.dependency "MBProgressHUD"
+    end
   end
   
   # 依赖库
