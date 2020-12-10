@@ -11,8 +11,6 @@ target 'TestDemo' do
   pod 'BWExtensionKit', :path => '../'
   # pod 'BWExtensionKit/Category'
   
-#  pod 'SVProgressHUD'
-  
   pod 'LookinServer', :configurations => ['Debug']
 
 end

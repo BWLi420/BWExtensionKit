@@ -25,7 +25,10 @@ To run the example project, clone the repo, and run `pod install` from the Examp
     pod 'BWExtensionKit/MHud'
     ```
 
-    
+
+
+
+> 若找不到最新版，执行 **pod repo update** 更新索引
 
 ## Author
 

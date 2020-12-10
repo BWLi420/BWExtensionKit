@@ -50,7 +50,7 @@
     UIView *cus = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 400)];
     cus.backgroundColor = [UIColor lightGrayColor];
     self.cusView = cus;
-//    [self.view addSubview:cus];
+    [self.view addSubview:cus];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
