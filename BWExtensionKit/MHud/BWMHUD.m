@@ -8,33 +8,29 @@
 
 #import "BWMHUD.h"
 
-#define kBWMHUDDelayTime 1.2
+static const CGFloat delayTime = 1.2;
+/// 显示时长
+#define kGetDelayTime(msg) [self getDelayTime:msg]
+/// 默认样式白底黑字
+#define kBWMHudStyle [BWMHUD share].config.style
+/// 默认位置居中
+#define kBWMHudPostion [BWMHUD share].config.postion
+/// 默认字体大小
+#define kHudFontSize [BWMHUD share].config.fontSize
 
-@implementation BWMHUDConfig
+@implementation BWMHUD
 
 + (instancetype)share {
     
-    static BWMHUDConfig *config;
+    static BWMHUD *hud;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
-        config = [[BWMHUDConfig alloc] init];
-        config.style = BWMHUDStyleDefault;
-        config.postion = BWMHUDPositionCenter;
-        config.fontSize = 16;
+        hud = [[BWMHUD alloc] init];
+        hud.config = [BWMHudConfig defaultConfig];
     });
-    return config;
+    return hud;
 }
-@end
-
-/// 默认样式白底黑字
-#define kBWMHudStyle [BWMHUDConfig share].style
-/// 默认位置居中
-#define kBWMHudPostion [BWMHUDConfig share].postion
-/// 默认字体大小
-#define kHudFontSize [BWMHUDConfig share].fontSize
-
-@implementation BWMHUD
 
 #pragma mark -------- 常显消息 --------
 + (MBProgressHUD *)showActivity {
@@ -42,12 +38,12 @@
     return [self showActivityMessage:nil onView:nil style:kBWMHudStyle postion:kBWMHudPostion];
 }
 
-+ (MBProgressHUD *)showActivityWithStyle:(BWMHUDStyle)style {
++ (MBProgressHUD *)showActivityWithStyle:(BWMHudStyle)style {
     
     return [self showActivityMessage:nil onView:nil style:style postion:kBWMHudPostion];
 }
 
-+ (MBProgressHUD *)showActivityWithPostion:(BWMHUDPosition)postion {
++ (MBProgressHUD *)showActivityWithPostion:(BWMHudPosition)postion {
     
     return [self showActivityMessage:nil onView:nil style:kBWMHudStyle postion:postion];
 }
@@ -57,12 +53,12 @@
     return [self showActivityMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion];
 }
 
-+ (MBProgressHUD *)showActivityMessage:(NSString *)message style:(BWMHUDStyle)style {
++ (MBProgressHUD *)showActivityMessage:(NSString *)message style:(BWMHudStyle)style {
     
     return [self showActivityMessage:message onView:nil style:style postion:kBWMHudPostion];
 }
 
-+ (MBProgressHUD *)showActivityMessage:(NSString *)message postion:(BWMHUDPosition)postion {
++ (MBProgressHUD *)showActivityMessage:(NSString *)message postion:(BWMHudPosition)postion {
     
     return [self showActivityMessage:message onView:nil style:kBWMHudStyle postion:postion];
 }
@@ -72,17 +68,17 @@
     return [self showActivityMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion];
 }
 
-+ (MBProgressHUD *)showActivityMessage:(NSString *)message onView:(UIView *)view style:(BWMHUDStyle)style {
++ (MBProgressHUD *)showActivityMessage:(NSString *)message onView:(UIView *)view style:(BWMHudStyle)style {
     
     return [self showActivityMessage:message onView:view style:style postion:kBWMHudPostion];
 }
 
-+ (MBProgressHUD *)showActivityMessage:(NSString *)message onView:(UIView *)view postion:(BWMHUDPosition)postion {
++ (MBProgressHUD *)showActivityMessage:(NSString *)message onView:(UIView *)view postion:(BWMHudPosition)postion {
     
     return [self showActivityMessage:message onView:view style:kBWMHudStyle postion:postion];
 }
 
-+ (MBProgressHUD *)showActivityMessage:(NSString *)message onView:(UIView *)view style:(BWMHUDStyle)style postion:(BWMHUDPosition)postion {
++ (MBProgressHUD *)showActivityMessage:(NSString *)message onView:(UIView *)view style:(BWMHudStyle)style postion:(BWMHudPosition)postion {
     
     return [self createHudOnView:view showMessage:message style:style postion:postion afterDelay:0 mode:MBProgressHUDModeIndeterminate customView:nil];
 }
@@ -90,17 +86,17 @@
 #pragma mark -------- 文字消息 --------
 + (MBProgressHUD *)showMessage:(NSString *)message {
     
-    return [self showMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime];
+    return [self showMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kGetDelayTime(message)];
 }
 
-+ (MBProgressHUD *)showMessage:(NSString *)message style:(BWMHUDStyle)style {
++ (MBProgressHUD *)showMessage:(NSString *)message style:(BWMHudStyle)style {
     
-    return [self showMessage:message onView:nil style:style postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime];
+    return [self showMessage:message onView:nil style:style postion:kBWMHudPostion afterDelay:kGetDelayTime(message)];
 }
 
-+ (MBProgressHUD *)showMessage:(NSString *)message postion:(BWMHUDPosition)postion {
++ (MBProgressHUD *)showMessage:(NSString *)message postion:(BWMHudPosition)postion {
     
-    return [self showMessage:message onView:nil style:kBWMHudStyle postion:postion afterDelay:kBWMHUDDelayTime];
+    return [self showMessage:message onView:nil style:kBWMHudStyle postion:postion afterDelay:kGetDelayTime(message)];
 }
 
 + (MBProgressHUD *)showMessage:(NSString *)message afterDelay:(NSTimeInterval)delay {
@@ -110,17 +106,17 @@
 
 + (MBProgressHUD *)showMessage:(NSString *)message onView:(UIView *)view {
     
-    return [self showMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime];
+    return [self showMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kGetDelayTime(message)];
 }
 
-+ (MBProgressHUD *)showMessage:(NSString *)message onView:(UIView *)view style:(BWMHUDStyle)style {
++ (MBProgressHUD *)showMessage:(NSString *)message onView:(UIView *)view style:(BWMHudStyle)style {
     
-    return [self showMessage:message onView:view style:style postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime];
+    return [self showMessage:message onView:view style:style postion:kBWMHudPostion afterDelay:kGetDelayTime(message)];
 }
 
-+ (MBProgressHUD *)showMessage:(NSString *)message onView:(UIView *)view postion:(BWMHUDPosition)postion {
++ (MBProgressHUD *)showMessage:(NSString *)message onView:(UIView *)view postion:(BWMHudPosition)postion {
     
-    return [self showMessage:message onView:view style:kBWMHudStyle postion:postion afterDelay:kBWMHUDDelayTime];
+    return [self showMessage:message onView:view style:kBWMHudStyle postion:postion afterDelay:kGetDelayTime(message)];
 }
 
 + (MBProgressHUD *)showMessage:(NSString *)message onView:(UIView *)view afterDelay:(NSTimeInterval)delay {
@@ -128,7 +124,7 @@
     return [self showMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:delay];
 }
 
-+ (MBProgressHUD *)showMessage:(NSString *)message onView:(UIView *)view style:(BWMHUDStyle)style postion:(BWMHUDPosition)postion afterDelay:(NSTimeInterval)delay {
++ (MBProgressHUD *)showMessage:(NSString *)message onView:(UIView *)view style:(BWMHudStyle)style postion:(BWMHudPosition)postion afterDelay:(NSTimeInterval)delay {
     
     return [self createHudOnView:view showMessage:message style:style postion:postion afterDelay:delay mode:MBProgressHUDModeText customView:nil];
 }
@@ -136,183 +132,183 @@
 #pragma mark -------- 提示、警告、成功、失败 --------
 + (MBProgressHUD *)showInfoMessage:(NSString *)message {
     
-    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].infoImageName];
+    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.infoImage];
 }
 
-+ (MBProgressHUD *)showInfoMessage:(NSString *)message style:(BWMHUDStyle)style {
++ (MBProgressHUD *)showInfoMessage:(NSString *)message style:(BWMHudStyle)style {
     
-    return [self showTipMessage:message onView:nil style:style postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].infoImageName];
+    return [self showTipMessage:message onView:nil style:style postion:kBWMHudPostion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.infoImage];
 }
 
-+ (MBProgressHUD *)showInfoMessage:(NSString *)message postion:(BWMHUDPosition)postion {
++ (MBProgressHUD *)showInfoMessage:(NSString *)message postion:(BWMHudPosition)postion {
     
-    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:postion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].infoImageName];
+    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:postion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.infoImage];
 }
 
 + (MBProgressHUD *)showInfoMessage:(NSString *)message afterDelay:(NSTimeInterval)delay {
     
-    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:delay tipImageName:[BWMHUDConfig share].infoImageName];
+    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:delay tipImage:[BWMHUD share].config.infoImage];
 }
 
 + (MBProgressHUD *)showInfoMessage:(NSString *)message onView:(UIView *)view {
     
-    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].infoImageName];
+    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.infoImage];
 }
 
-+ (MBProgressHUD *)showInfoMessage:(NSString *)message onView:(UIView *)view style:(BWMHUDStyle)style {
++ (MBProgressHUD *)showInfoMessage:(NSString *)message onView:(UIView *)view style:(BWMHudStyle)style {
     
-    return [self showTipMessage:message onView:view style:style postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].infoImageName];
+    return [self showTipMessage:message onView:view style:style postion:kBWMHudPostion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.infoImage];
 }
 
-+ (MBProgressHUD *)showInfoMessage:(NSString *)message onView:(UIView *)view postion:(BWMHUDPosition)postion {
++ (MBProgressHUD *)showInfoMessage:(NSString *)message onView:(UIView *)view postion:(BWMHudPosition)postion {
     
-    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:postion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].infoImageName];
+    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:postion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.infoImage];
 }
 
 + (MBProgressHUD *)showInfoMessage:(NSString *)message onView:(UIView *)view afterDelay:(NSTimeInterval)delay {
     
-    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:delay tipImageName:[BWMHUDConfig share].infoImageName];
+    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:delay tipImage:[BWMHUD share].config.infoImage];
 }
 
 + (MBProgressHUD *)showWarnMessage:(NSString *)message {
     
-    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].warnImageName];
+    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.warnImage];
 }
 
-+ (MBProgressHUD *)showWarnMessage:(NSString *)message style:(BWMHUDStyle)style {
++ (MBProgressHUD *)showWarnMessage:(NSString *)message style:(BWMHudStyle)style {
     
-    return [self showTipMessage:message onView:nil style:style postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].warnImageName];
+    return [self showTipMessage:message onView:nil style:style postion:kBWMHudPostion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.warnImage];
 }
 
-+ (MBProgressHUD *)showWarnMessage:(NSString *)message postion:(BWMHUDPosition)postion {
++ (MBProgressHUD *)showWarnMessage:(NSString *)message postion:(BWMHudPosition)postion {
     
-    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:postion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].warnImageName];
+    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:postion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.warnImage];
 }
 
 + (MBProgressHUD *)showWarnMessage:(NSString *)message afterDelay:(NSTimeInterval)delay {
     
-    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:delay tipImageName:[BWMHUDConfig share].warnImageName];
+    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:delay tipImage:[BWMHUD share].config.warnImage];
 }
 
 + (MBProgressHUD *)showWarnMessage:(NSString *)message onView:(UIView *)view {
     
-    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].warnImageName];
+    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.warnImage];
 }
 
-+ (MBProgressHUD *)showWarnMessage:(NSString *)message onView:(UIView *)view style:(BWMHUDStyle)style {
++ (MBProgressHUD *)showWarnMessage:(NSString *)message onView:(UIView *)view style:(BWMHudStyle)style {
     
-    return [self showTipMessage:message onView:view style:style postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].warnImageName];
+    return [self showTipMessage:message onView:view style:style postion:kBWMHudPostion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.warnImage];
 }
 
-+ (MBProgressHUD *)showWarnMessage:(NSString *)message onView:(UIView *)view postion:(BWMHUDPosition)postion {
++ (MBProgressHUD *)showWarnMessage:(NSString *)message onView:(UIView *)view postion:(BWMHudPosition)postion {
     
-    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:postion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].warnImageName];
+    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:postion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.warnImage];
 }
 
 + (MBProgressHUD *)showWarnMessage:(NSString *)message onView:(UIView *)view afterDelay:(NSTimeInterval)delay {
     
-    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:delay tipImageName:[BWMHUDConfig share].warnImageName];
+    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:delay tipImage:[BWMHUD share].config.warnImage];
 }
 
 + (MBProgressHUD *)showSuccessMessage:(NSString *)message {
     
-    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].successImageName];
+    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.successImage];
 }
 
-+ (MBProgressHUD *)showSuccessMessage:(NSString *)message style:(BWMHUDStyle)style {
++ (MBProgressHUD *)showSuccessMessage:(NSString *)message style:(BWMHudStyle)style {
     
-    return [self showTipMessage:message onView:nil style:style postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].successImageName];
+    return [self showTipMessage:message onView:nil style:style postion:kBWMHudPostion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.successImage];
 }
 
-+ (MBProgressHUD *)showSuccessMessage:(NSString *)message postion:(BWMHUDPosition)postion {
++ (MBProgressHUD *)showSuccessMessage:(NSString *)message postion:(BWMHudPosition)postion {
     
-    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:postion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].successImageName];
+    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:postion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.successImage];
 }
 
 + (MBProgressHUD *)showSuccessMessage:(NSString *)message afterDelay:(NSTimeInterval)delay {
     
-    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:delay tipImageName:[BWMHUDConfig share].successImageName];
+    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:delay tipImage:[BWMHUD share].config.successImage];
 }
 
 + (MBProgressHUD *)showSuccessMessage:(NSString *)message onView:(UIView *)view {
     
-    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].successImageName];
+    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.successImage];
 }
 
-+ (MBProgressHUD *)showSuccessMessage:(NSString *)message onView:(UIView *)view style:(BWMHUDStyle)style {
++ (MBProgressHUD *)showSuccessMessage:(NSString *)message onView:(UIView *)view style:(BWMHudStyle)style {
     
-    return [self showTipMessage:message onView:view style:style postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].successImageName];
+    return [self showTipMessage:message onView:view style:style postion:kBWMHudPostion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.successImage];
 }
 
-+ (MBProgressHUD *)showSuccessMessage:(NSString *)message onView:(UIView *)view postion:(BWMHUDPosition)postion {
++ (MBProgressHUD *)showSuccessMessage:(NSString *)message onView:(UIView *)view postion:(BWMHudPosition)postion {
     
-    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:postion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].successImageName];
+    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:postion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.successImage];
 }
 
 + (MBProgressHUD *)showSuccessMessage:(NSString *)message onView:(UIView *)view afterDelay:(NSTimeInterval)delay {
     
-    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:delay tipImageName:[BWMHUDConfig share].successImageName];
+    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:delay tipImage:[BWMHUD share].config.successImage];
 }
 
 + (MBProgressHUD *)showErrorMessage:(NSString *)message {
     
-    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].errorImageName];
+    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.errorImage];
 }
 
-+ (MBProgressHUD *)showErrorMessage:(NSString *)message style:(BWMHUDStyle)style {
++ (MBProgressHUD *)showErrorMessage:(NSString *)message style:(BWMHudStyle)style {
     
-    return [self showTipMessage:message onView:nil style:style postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].errorImageName];
+    return [self showTipMessage:message onView:nil style:style postion:kBWMHudPostion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.errorImage];
 }
 
-+ (MBProgressHUD *)showErrorMessage:(NSString *)message postion:(BWMHUDPosition)postion {
++ (MBProgressHUD *)showErrorMessage:(NSString *)message postion:(BWMHudPosition)postion {
     
-    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:postion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].errorImageName];
+    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:postion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.errorImage];
 }
 
 + (MBProgressHUD *)showErrorMessage:(NSString *)message afterDelay:(NSTimeInterval)delay {
     
-    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:delay tipImageName:[BWMHUDConfig share].errorImageName];
+    return [self showTipMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:delay tipImage:[BWMHUD share].config.errorImage];
 }
 
 + (MBProgressHUD *)showErrorMessage:(NSString *)message onView:(UIView *)view {
     
-    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].errorImageName];
+    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.errorImage];
 }
 
-+ (MBProgressHUD *)showErrorMessage:(NSString *)message onView:(UIView *)view style:(BWMHUDStyle)style {
++ (MBProgressHUD *)showErrorMessage:(NSString *)message onView:(UIView *)view style:(BWMHudStyle)style {
     
-    return [self showTipMessage:message onView:view style:style postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].errorImageName];
+    return [self showTipMessage:message onView:view style:style postion:kBWMHudPostion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.errorImage];
 }
 
-+ (MBProgressHUD *)showErrorMessage:(NSString *)message onView:(UIView *)view postion:(BWMHUDPosition)postion {
++ (MBProgressHUD *)showErrorMessage:(NSString *)message onView:(UIView *)view postion:(BWMHudPosition)postion {
     
-    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:postion afterDelay:kBWMHUDDelayTime tipImageName:[BWMHUDConfig share].errorImageName];
+    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:postion afterDelay:kGetDelayTime(message) tipImage:[BWMHUD share].config.errorImage];
 }
 
 + (MBProgressHUD *)showErrorMessage:(NSString *)message onView:(UIView *)view afterDelay:(NSTimeInterval)delay {
     
-    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:delay tipImageName:[BWMHUDConfig share].errorImageName];
+    return [self showTipMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:delay tipImage:[BWMHUD share].config.errorImage];
 }
 
-+ (MBProgressHUD *)showTipMessage:(NSString *)message onView:(UIView *)view style:(BWMHUDStyle)style postion:(BWMHUDPosition)postion afterDelay:(NSTimeInterval)delay tipImageName:(NSString *)imageName {
++ (MBProgressHUD *)showTipMessage:(NSString *)message onView:(UIView *)view style:(BWMHudStyle)style postion:(BWMHudPosition)postion afterDelay:(NSTimeInterval)delay tipImage:(UIImage *)image {
     
-    return [self createHudOnView:view showMessage:message style:style postion:postion afterDelay:delay mode:MBProgressHUDModeCustomView customView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]]];
+    return [self createHudOnView:view showMessage:message style:style postion:postion afterDelay:delay mode:MBProgressHUDModeCustomView customView:[[UIImageView alloc] initWithImage:image]];
 }
 
 #pragma mark -------- 自定义视图消息 --------
 + (MBProgressHUD *)showCustomView:(UIView *)customView {
     
-    return [self showCustomMessage:nil onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime customView:customView];
+    return [self showCustomMessage:nil onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kGetDelayTime(@"") customView:customView];
 }
 
-+ (MBProgressHUD *)showCustomView:(UIView *)customView style:(BWMHUDStyle)style {
++ (MBProgressHUD *)showCustomView:(UIView *)customView style:(BWMHudStyle)style {
     
-    return [self showCustomMessage:nil onView:nil style:style postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime customView:customView];
+    return [self showCustomMessage:nil onView:nil style:style postion:kBWMHudPostion afterDelay:kGetDelayTime(@"") customView:customView];
 }
 
-+ (MBProgressHUD *)showCustomView:(UIView *)customView postion:(BWMHUDPosition)postion {
++ (MBProgressHUD *)showCustomView:(UIView *)customView postion:(BWMHudPosition)postion {
     
-    return [self showCustomMessage:nil onView:nil style:kBWMHudStyle postion:postion afterDelay:kBWMHUDDelayTime customView:customView];
+    return [self showCustomMessage:nil onView:nil style:kBWMHudStyle postion:postion afterDelay:kGetDelayTime(@"") customView:customView];
 }
 
 + (MBProgressHUD *)showCustomView:(UIView *)customView afterDelay:(NSTimeInterval)delay {
@@ -322,17 +318,17 @@
 
 + (MBProgressHUD *)showCustomView:(UIView *)customView onView:(UIView *)view {
     
-    return [self showCustomMessage:nil onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime customView:customView];
+    return [self showCustomMessage:nil onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kGetDelayTime(@"") customView:customView];
 }
 
-+ (MBProgressHUD *)showCustomView:(UIView *)customView onView:(UIView *)view style:(BWMHUDStyle)style {
++ (MBProgressHUD *)showCustomView:(UIView *)customView onView:(UIView *)view style:(BWMHudStyle)style {
     
-    return [self showCustomMessage:nil onView:view style:style postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime customView:customView];
+    return [self showCustomMessage:nil onView:view style:style postion:kBWMHudPostion afterDelay:kGetDelayTime(@"") customView:customView];
 }
 
-+ (MBProgressHUD *)showCustomView:(UIView *)customView onView:(UIView *)view postion:(BWMHUDPosition)postion {
++ (MBProgressHUD *)showCustomView:(UIView *)customView onView:(UIView *)view postion:(BWMHudPosition)postion {
     
-    return [self showCustomMessage:nil onView:view style:kBWMHudStyle postion:postion afterDelay:kBWMHUDDelayTime customView:customView];
+    return [self showCustomMessage:nil onView:view style:kBWMHudStyle postion:postion afterDelay:kGetDelayTime(@"") customView:customView];
 }
 
 + (MBProgressHUD *)showCustomView:(UIView *)customView onView:(UIView *)view afterDelay:(NSTimeInterval)delay {
@@ -342,17 +338,17 @@
 
 + (MBProgressHUD *)showCustomView:(UIView *)customView message:(NSString *)message {
     
-    return [self showCustomMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime customView:customView];
+    return [self showCustomMessage:message onView:nil style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kGetDelayTime(message) customView:customView];
 }
 
-+ (MBProgressHUD *)showCustomView:(UIView *)customView message:(NSString *)message style:(BWMHUDStyle)style {
++ (MBProgressHUD *)showCustomView:(UIView *)customView message:(NSString *)message style:(BWMHudStyle)style {
     
-    return [self showCustomMessage:message onView:nil style:style postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime customView:customView];
+    return [self showCustomMessage:message onView:nil style:style postion:kBWMHudPostion afterDelay:kGetDelayTime(message) customView:customView];
 }
 
-+ (MBProgressHUD *)showCustomView:(UIView *)customView message:(NSString *)message postion:(BWMHUDPosition)postion {
++ (MBProgressHUD *)showCustomView:(UIView *)customView message:(NSString *)message postion:(BWMHudPosition)postion {
     
-    return [self showCustomMessage:message onView:nil style:kBWMHudStyle postion:postion afterDelay:kBWMHUDDelayTime customView:customView];
+    return [self showCustomMessage:message onView:nil style:kBWMHudStyle postion:postion afterDelay:kGetDelayTime(message) customView:customView];
 }
 
 + (MBProgressHUD *)showCustomView:(UIView *)customView message:(NSString *)message afterDelay:(NSTimeInterval)delay {
@@ -362,17 +358,17 @@
 
 + (MBProgressHUD *)showCustomView:(UIView *)customView message:(NSString *)message onView:(UIView *)view {
     
-    return [self showCustomMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime customView:customView];
+    return [self showCustomMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:kGetDelayTime(message) customView:customView];
 }
 
-+ (MBProgressHUD *)showCustomView:(UIView *)customView message:(NSString *)message onView:(UIView *)view style:(BWMHUDStyle)style {
++ (MBProgressHUD *)showCustomView:(UIView *)customView message:(NSString *)message onView:(UIView *)view style:(BWMHudStyle)style {
     
-    return [self showCustomMessage:message onView:view style:style postion:kBWMHudPostion afterDelay:kBWMHUDDelayTime customView:customView];
+    return [self showCustomMessage:message onView:view style:style postion:kBWMHudPostion afterDelay:kGetDelayTime(message) customView:customView];
 }
 
-+ (MBProgressHUD *)showCustomView:(UIView *)customView message:(NSString *)message onView:(UIView *)view postion:(BWMHUDPosition)postion {
++ (MBProgressHUD *)showCustomView:(UIView *)customView message:(NSString *)message onView:(UIView *)view postion:(BWMHudPosition)postion {
     
-    return [self showCustomMessage:message onView:view style:kBWMHudStyle postion:postion afterDelay:kBWMHUDDelayTime customView:customView];
+    return [self showCustomMessage:message onView:view style:kBWMHudStyle postion:postion afterDelay:kGetDelayTime(message) customView:customView];
 }
 
 + (MBProgressHUD *)showCustomView:(UIView *)customView message:(NSString *)message onView:(UIView *)view afterDelay:(NSTimeInterval)delay {
@@ -380,7 +376,7 @@
     return [self showCustomMessage:message onView:view style:kBWMHudStyle postion:kBWMHudPostion afterDelay:delay customView:customView];
 }
 
-+ (MBProgressHUD *)showCustomMessage:(NSString *)message onView:(UIView *)view style:(BWMHUDStyle)style postion:(BWMHUDPosition)postion afterDelay:(NSTimeInterval)delay customView:(UIView *)customView {
++ (MBProgressHUD *)showCustomMessage:(NSString *)message onView:(UIView *)view style:(BWMHudStyle)style postion:(BWMHudPosition)postion afterDelay:(NSTimeInterval)delay customView:(UIView *)customView {
     
     return [self createHudOnView:view showMessage:message style:style postion:postion afterDelay:delay mode:MBProgressHUDModeCustomView customView:customView];
 }
@@ -400,7 +396,7 @@
 
 #pragma mark -------- 统一创建 --------
 /// 统一创建提示框对象
-+ (MBProgressHUD *)createHudOnView:(UIView  *)view showMessage:(NSString *)message style:(BWMHUDStyle)style postion:(BWMHUDPosition)postion afterDelay:(NSTimeInterval)delay mode:(MBProgressHUDMode)mode customView:(UIView *)customView {
++ (MBProgressHUD *)createHudOnView:(UIView  *)view showMessage:(NSString *)message style:(BWMHudStyle)style postion:(BWMHudPosition)postion afterDelay:(NSTimeInterval)delay mode:(MBProgressHUDMode)mode customView:(UIView *)customView {
     
     [self hideHUD];
     
@@ -421,13 +417,13 @@
     hud.label.text = message;
     
     switch (style) {
-        case BWMHUDStyleBlack:
+        case BWMHudStyleBlack:
             hud.bezelView.color = [UIColor colorWithRed:25/255.0 green:25/255.0 blue:25/255.0 alpha:1.0];
             hud.contentColor = [UIColor whiteColor];
             break;
-        case BWMHUDStyleCustom:
-            hud.bezelView.color = [BWMHUDConfig share].customBackgrandColor;
-            hud.contentColor = [BWMHUDConfig share].customContentColor;
+        case BWMHudStyleCustom:
+            hud.bezelView.color = [BWMHUD share].config.customBackgrandColor;
+            hud.contentColor = [BWMHUD share].config.customContentColor;
             break;
         default:
             hud.bezelView.color = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1.0];
@@ -436,11 +432,11 @@
     }
     
     switch (postion) {
-        case BWMHUDPositionTop:
+        case BWMHudPositionTop:
 //            hud.offset = CGPointMake(0, -MBProgressMaxOffset);
             hud.offset = CGPointMake(0, -[self getMaxOffectWithView:view]);
             break;
-        case BWMHUDPositionBottom:
+        case BWMHudPositionBottom:
 //            hud.offset = CGPointMake(0, MBProgressMaxOffset);
             hud.offset = CGPointMake(0, [self getMaxOffectWithView:view]);
             break;
@@ -521,6 +517,16 @@
     }
     
     return offect;
+}
+
+/// 获取时长
++ (CGFloat)getDelayTime:(NSString *)msg {
+    
+    if ([BWMHUD share].config.autoTime) {
+        return msg.length * 0.06 + 0.5;
+    } else {
+        return delayTime;
+    }
 }
 
 @end
