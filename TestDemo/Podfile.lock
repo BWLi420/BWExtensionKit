@@ -1,12 +1,16 @@
 PODS:
-  - BWExtensionKit (0.0.1):
-    - BWExtensionKit/Category (= 0.0.1)
-    - BWExtensionKit/MHud (= 0.0.1)
-  - BWExtensionKit/Category (0.0.1)
-  - BWExtensionKit/MHud (0.0.1):
+  - BWExtensionKit (0.0.2):
+    - BWExtensionKit/Category (= 0.0.2)
+    - BWExtensionKit/MHud (= 0.0.2)
+    - BWExtensionKit/SHud (= 0.0.2)
+  - BWExtensionKit/Category (0.0.2)
+  - BWExtensionKit/MHud (0.0.2):
     - MBProgressHUD
+  - BWExtensionKit/SHud (0.0.2):
+    - SVProgressHUD
   - LookinServer (1.0.0)
   - MBProgressHUD (1.2.0)
+  - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
   - BWExtensionKit (from `../`)
@@ -16,16 +20,18 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - LookinServer
     - MBProgressHUD
+    - SVProgressHUD
 
 EXTERNAL SOURCES:
   BWExtensionKit:
     :path: "../"
 
 SPEC CHECKSUMS:
-  BWExtensionKit: 29070a024c9fb9cbc7bea31c175f054326f0a4bb
+  BWExtensionKit: e4169f862f53c0e2e661a9620dc5225cdc5fbe50
   LookinServer: 0002891cd3cec5e082a910e897dfe71b4f06b89e
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: a4af442462a246dee061c7f7f1676a5083283383
+PODFILE CHECKSUM: 60beb1947df3abe0eb6c767a547be7a8ccf8b596
 
-COCOAPODS: 1.10.0.rc.1
+COCOAPODS: 1.10.0

@@ -56,6 +56,12 @@ Pod::Spec.new do |spec|
     mu.frameworks = "UIKit", "Foundation"
   end
   
+  spec.subspec "SHud" do |su|
+    su.source_files = "BWExtensionKit/SHud/*.{h,m}"
+    su.dependency "SVProgressHUD"
+    su.frameworks = "UIKit", "Foundation"
+  end
+  
   # 依赖库
 #  spec.dependency "JJException"
 end

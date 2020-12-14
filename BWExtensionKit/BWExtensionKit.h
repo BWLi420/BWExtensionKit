@@ -7,4 +7,4 @@
 
 #import <BWExtensionKit/BWCategoryHeader.h>
 #import <BWExtensionKit/BWMHUD.h>
-
+#import <BWExtensionKit/BWSHUD.h>
