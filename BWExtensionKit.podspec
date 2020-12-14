@@ -9,7 +9,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "BWExtensionKit"
-  spec.version      = "0.0.2"
+  spec.version      = "0.0.3"
   spec.summary      = "一些扩展及封装。"
 
   spec.description  = <<-DESC
