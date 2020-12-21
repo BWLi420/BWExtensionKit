@@ -40,13 +40,13 @@ typedef NS_ENUM(NSInteger, BWMHudPosition) {
 /// 自定义样式下内容颜色，使用 BWMHUDStyleCustom 时必须设置
 @property (nonatomic, strong) UIColor *customContentColor;
 
-/// 提示图片名称
+/// 提示图片
 @property (nonatomic, strong) UIImage *infoImage;
-/// 警告图片名称
+/// 警告图片
 @property (nonatomic, strong) UIImage *warnImage;
-/// 成功图片名称
+/// 成功图片
 @property (nonatomic, strong) UIImage *successImage;
-/// 失败图片名称
+/// 失败图片
 @property (nonatomic, strong) UIImage *errorImage;
 
 @end
