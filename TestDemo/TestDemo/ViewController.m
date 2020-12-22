@@ -10,6 +10,7 @@
 #import <BWCategoryHeader.h>
 #import <BWMHUD.h>
 #import <BWSHUD.h>
+#import <BWLocation.h>
 
 @interface CustomView : UIView
 @end
@@ -61,6 +62,10 @@
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
+    [[BWLocation share] startLocation:^(BWLocationResult *result, NSError *error) {
+        NSLog(@"result = %@ \n error = %@", result, error);
+    }];
     
 //    [BWMHUD showMessage:@"身边的魔法师包括身边的魔法师包括"];
 //    [BWMHUD showActivityWithStyle:BWMHUDStyleBlack];

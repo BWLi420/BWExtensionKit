@@ -1,12 +1,14 @@
 PODS:
-  - BWExtensionKit (0.0.2):
-    - BWExtensionKit/Category (= 0.0.2)
-    - BWExtensionKit/MHud (= 0.0.2)
-    - BWExtensionKit/SHud (= 0.0.2)
-  - BWExtensionKit/Category (0.0.2)
-  - BWExtensionKit/MHud (0.0.2):
+  - BWExtensionKit (0.0.3):
+    - BWExtensionKit/Category (= 0.0.3)
+    - BWExtensionKit/GeneralTool (= 0.0.3)
+    - BWExtensionKit/MHud (= 0.0.3)
+    - BWExtensionKit/SHud (= 0.0.3)
+  - BWExtensionKit/Category (0.0.3)
+  - BWExtensionKit/GeneralTool (0.0.3)
+  - BWExtensionKit/MHud (0.0.3):
     - MBProgressHUD
-  - BWExtensionKit/SHud (0.0.2):
+  - BWExtensionKit/SHud (0.0.3):
     - SVProgressHUD
   - LookinServer (1.0.0)
   - MBProgressHUD (1.2.0)
@@ -27,7 +29,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  BWExtensionKit: e4169f862f53c0e2e661a9620dc5225cdc5fbe50
+  BWExtensionKit: c35dc47cf6eabe5ea5d5eba8b4e81e0a5979fa3f
   LookinServer: 0002891cd3cec5e082a910e897dfe71b4f06b89e
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6

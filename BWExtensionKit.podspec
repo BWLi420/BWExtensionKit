@@ -62,6 +62,11 @@ Pod::Spec.new do |spec|
     su.frameworks = "UIKit", "Foundation"
   end
   
+  spec.subspec "GeneralTool" do |gt|
+    gt.source_files = "BWExtensionKit/GeneralTool/*.{h,m}"
+    gt.frameworks = "Foundation"
+  end
+  
   # 依赖库
 #  spec.dependency "JJException"
 end
