@@ -83,8 +83,8 @@
     NSURL *url = [NSURL URLWithString:@"https://ip.nf/me.json"];
     
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    config.timeoutIntervalForRequest = 3;
-    config.timeoutIntervalForResource = 8;
+    config.timeoutIntervalForRequest = 15;
+    config.timeoutIntervalForResource = 30;
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
     
     NSURLSessionDataTask *task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -120,8 +120,8 @@
     NSURL *url = [NSURL URLWithString:@"http://ip-api.com/json/?fields=57811"];
     
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    config.timeoutIntervalForRequest = 3;
-    config.timeoutIntervalForResource = 8;
+    config.timeoutIntervalForRequest = 15;
+    config.timeoutIntervalForResource = 30;
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
     
     NSURLSessionDataTask *task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -195,8 +195,8 @@
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://ip.nf/%@.json", ip]];
     
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    config.timeoutIntervalForRequest = 3;
-    config.timeoutIntervalForResource = 8;
+    config.timeoutIntervalForRequest = 15;
+    config.timeoutIntervalForResource = 30;
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
     
     NSURLSessionDataTask *task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -234,8 +234,8 @@
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://ip-api.com/json/%@?fields=57811", ip]];
     
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    config.timeoutIntervalForRequest = 3;
-    config.timeoutIntervalForResource = 8;
+    config.timeoutIntervalForRequest = 15;
+    config.timeoutIntervalForResource = 30;
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
     
     NSURLSessionDataTask *task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
