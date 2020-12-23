@@ -67,6 +67,10 @@
         NSLog(@"result = %@ \n error = %@", result, error);
     }];
     
+    [[BWLocation share] getLocationWithIP:@"119.57.32.103" result:^(BWLocationResult *result, NSError *error) {
+        NSLog(@"result = %@ \n error = %@", result, error);
+    }];
+    
 //    [BWMHUD showMessage:@"身边的魔法师包括身边的魔法师包括"];
 //    [BWMHUD showActivityWithStyle:BWMHUDStyleBlack];
     

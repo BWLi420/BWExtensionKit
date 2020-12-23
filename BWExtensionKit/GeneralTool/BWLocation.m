@@ -80,9 +80,51 @@
 #pragma mark -------- API定位 --------
 - (void)apiLocation {
     
+    NSURL *url = [NSURL URLWithString:@"https://ip.nf/me.json"];
+    
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    config.timeoutIntervalForRequest = 3;
+    config.timeoutIntervalForResource = 8;
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+    
+    NSURLSessionDataTask *task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        if (error) {
+            
+            [self apiSpareLocation];
+        } else {
+            
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil][@"ip"];
+            
+            CLLocationDegrees lat = [dict[@"latitude"] doubleValue];
+            CLLocationDegrees lon = [dict[@"longitude"] doubleValue];
+            
+            BWLocationResult *res = [[BWLocationResult alloc] init];
+            res.location = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
+            res.region = [[CLCircularRegion alloc] initWithCenter:CLLocationCoordinate2DMake(lat, lon) radius:100.00 identifier:[NSString stringWithFormat:@"<%@%f,%@%f> radius 100.00", lat>0?@"+":@"", lat, lon>0?@"+":@"", lon]];
+            res.timeZone = [NSTimeZone timeZoneWithName:dict[@"timezone"]];
+            res.country = dict[@"country"];
+            res.countryCode = dict[@"country_code"];
+            res.locality = dict[@"city"];
+            
+            [self finalData:res error:nil];
+        }
+    }];
+    [task resume];
+}
+
+/// 备用定位
+- (void)apiSpareLocation {
+    
+    // 每分钟45次限制
     NSURL *url = [NSURL URLWithString:@"http://ip-api.com/json/?fields=57811"];
     
-    NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    config.timeoutIntervalForRequest = 3;
+    config.timeoutIntervalForResource = 8;
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+    
+    NSURLSessionDataTask *task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
         if (error) {
             
@@ -139,6 +181,91 @@
     if (self.locationResult) {
         self.locationResult(result, err);
     }
+}
+
+#pragma mark -------- ip 获取地理位置 --------
+- (void)getLocationWithIP:(NSString *)ip result:(LocationResult)complateResult {
+    
+    if (ip == nil) {
+        if (complateResult) {
+            complateResult(nil, [NSError errorWithDomain:NSURLErrorDomain code:404 userInfo:@{NSLocalizedDescriptionKey: @"ip地址为空"}]);
+        }
+    }
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://ip.nf/%@.json", ip]];
+    
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    config.timeoutIntervalForRequest = 3;
+    config.timeoutIntervalForResource = 8;
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+    
+    NSURLSessionDataTask *task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        if (error) {
+            
+            [self spareLocationWithIP:ip result:complateResult];
+        } else {
+            
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil][@"ip"];
+            
+            CLLocationDegrees lat = [dict[@"latitude"] doubleValue];
+            CLLocationDegrees lon = [dict[@"longitude"] doubleValue];
+            
+            BWLocationResult *res = [[BWLocationResult alloc] init];
+            res.location = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
+            res.region = [[CLCircularRegion alloc] initWithCenter:CLLocationCoordinate2DMake(lat, lon) radius:100.00 identifier:[NSString stringWithFormat:@"<%@%f,%@%f> radius 100.00", lat>0?@"+":@"", lat, lon>0?@"+":@"", lon]];
+            res.timeZone = [NSTimeZone timeZoneWithName:dict[@"timezone"]];
+            res.country = dict[@"country"];
+            res.countryCode = dict[@"country_code"];
+            res.locality = dict[@"city"];
+            
+            if (complateResult) {
+                complateResult(res, nil);
+            }
+        }
+    }];
+    [task resume];
+}
+
+/// 备用
+- (void)spareLocationWithIP:(NSString *)ip result:(LocationResult)complateResult {
+    
+    // 每分钟45次限制
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://ip-api.com/json/%@?fields=57811", ip]];
+    
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    config.timeoutIntervalForRequest = 3;
+    config.timeoutIntervalForResource = 8;
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+    
+    NSURLSessionDataTask *task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        if (error) {
+            
+            if (complateResult) {
+                complateResult(nil, error);
+            }
+        } else {
+            
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            
+            CLLocationDegrees lat = [dict[@"lat"] doubleValue];
+            CLLocationDegrees lon = [dict[@"lon"] doubleValue];
+            
+            BWLocationResult *res = [[BWLocationResult alloc] init];
+            res.location = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
+            res.region = [[CLCircularRegion alloc] initWithCenter:CLLocationCoordinate2DMake(lat, lon) radius:100.00 identifier:[NSString stringWithFormat:@"<%@%f,%@%f> radius 100.00", lat>0?@"+":@"", lat, lon>0?@"+":@"", lon]];
+            res.timeZone = [NSTimeZone timeZoneWithName:dict[@"timezone"]];
+            res.country = dict[@"country"];
+            res.countryCode = dict[@"countryCode"];
+            res.locality = dict[@"city"];
+            
+            if (complateResult) {
+                complateResult(res, nil);
+            }
+        }
+    }];
+    [task resume];
 }
 
 @end
