@@ -6,6 +6,7 @@
 //
 
 #import "UIImage+BWExtension.h"
+#import <Photos/Photos.h>
 
 @implementation UIImage (BWExtension)
 
@@ -27,6 +28,13 @@
     UIGraphicsEndImageContext();
     
     return theImage;
+}
+
++ (instancetype)bw_imageWithOriginalName:(NSString *)name {
+    
+    UIImage *img = [UIImage imageNamed:name];
+    [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    return img;
 }
 
 - (UIColor *)bw_pixelColorAtLocation:(CGPoint)point {
@@ -126,6 +134,294 @@
     CGColorSpaceRelease( colorSpace );
     
     return context;
+}
+
+- (void)saveToAlbum:(NSString *)album complation:(void (^)(BOOL, NSError * _Nullable))complationHandler {
+    
+    if (album == nil) {
+        if (complationHandler) {
+            complationHandler(NO, [NSError errorWithDomain:NSNetServicesErrorDomain code:404 userInfo:@{NSLocalizedDescriptionKey: @"自定义相册名称不能为空"}]);
+        }
+    }
+    
+    if (@available(iOS 14, *)) {
+        
+        if ([PHPhotoLibrary authorizationStatusForAccessLevel:PHAccessLevelAddOnly] == PHAuthorizationStatusNotDetermined) {
+            
+            [PHPhotoLibrary requestAuthorizationForAccessLevel:PHAccessLevelAddOnly handler:^(PHAuthorizationStatus status) {
+                
+                if (status == PHAuthorizationStatusAuthorized
+                    || status == PHAuthorizationStatusLimited) {
+                    
+                    [self saveImageToAlbum:album complation:complationHandler];
+                } else {
+                    
+                    if (complationHandler) {
+                        complationHandler(NO, [NSError errorWithDomain:NSNetServicesErrorDomain code:404 userInfo:@{NSLocalizedDescriptionKey: @"用户拒绝访问相册"}]);
+                    }
+                }
+            }];
+        } else {
+            
+            [self saveImageToAlbum:album complation:complationHandler];
+        }
+    } else {
+        
+        if ([PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusNotDetermined) {
+            
+            [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+                
+                if (status == PHAuthorizationStatusAuthorized) {
+                    
+                    [self saveImageToAlbum:album complation:complationHandler];
+                } else {
+                    
+                    if (complationHandler) {
+                        complationHandler(NO, [NSError errorWithDomain:NSNetServicesErrorDomain code:404 userInfo:@{NSLocalizedDescriptionKey: @"用户拒绝访问相册"}]);
+                    }
+                }
+            }];
+        } else {
+            
+            [self saveImageToAlbum:album complation:complationHandler];
+        }
+    }
+}
+
+- (void)saveImageToAlbum:(NSString *)album complation:(void (^)(BOOL, NSError * _Nullable))complationHandler {
+    
+    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+        
+        //判断之前是否有相同的相册
+        PHAssetCollection *oldCollection = [self fetchAssetColletion:album];
+        
+        PHAssetCollectionChangeRequest *assetCollection = nil;
+        if (oldCollection) {
+            assetCollection = [PHAssetCollectionChangeRequest changeRequestForAssetCollection:oldCollection];
+        }else {
+            //创建自定义相册
+            assetCollection = [PHAssetCollectionChangeRequest creationRequestForAssetCollectionWithTitle:album];
+        }
+        
+        //保存图片到系统相册
+        PHAssetChangeRequest *assetChange = [PHAssetChangeRequest creationRequestForAssetFromImage:self];
+        //将保存的图片添加到自定义相册
+        PHObjectPlaceholder *placeholder = [assetChange placeholderForCreatedAsset];
+        [assetCollection addAssets:@[placeholder]];
+        
+    } completionHandler:complationHandler];
+}
+
+/// 查找相册
+- (PHAssetCollection *)fetchAssetColletion:(NSString *)albumTitle {
+    
+    PHFetchResult *fetchResult = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
+    
+    for (PHAssetCollection *assetCollection in fetchResult) {
+        if ([assetCollection.localizedTitle isEqualToString:albumTitle]) {
+            return assetCollection;
+        }
+    }
+    return nil;
+}
+
+- (UIImage *)bw_compressFromLuban {
+    
+    if (self == nil) {
+#ifdef DEBUG
+        NSLog(@"压缩图片不能为空");
+#endif
+        return nil;
+    }
+    
+    CGFloat w = self.size.width;
+    CGFloat h = self.size.height;
+    NSData *rawData = UIImageJPEGRepresentation(self, 1);
+    CGFloat rawKB = rawData.length / 1024.0;
+    
+#ifdef DEBUG
+    NSLog(@"图片压缩之前 == %f KB", rawKB);
+#endif
+    
+    BOOL vertical = w < h;
+    CGFloat scale = vertical ? (w / h) : (h / w);
+    CGFloat newSize = 0;
+    
+    CGFloat thumbW = w;
+    CGFloat thumbH = h;
+    CGFloat maxLong = vertical ? h : w;
+    
+    if (scale > 0.5625) { // 16:9 ~ 1:1
+        
+        if (maxLong < 1664) {
+            
+            if (rawKB < 60) {
+                return [UIImage imageWithData:rawData];
+            }
+            
+            newSize = w * h / pow(1664, 2) * 150;
+            newSize = newSize < 60 ? 60 : newSize;
+        } else if (maxLong < 4990) {
+            
+            if (rawKB < 60) {
+                return [UIImage imageWithData:rawData];
+            }
+            
+            thumbW /= 2;
+            thumbH /= 2;
+            newSize = thumbW * thumbH / pow(4990, 2) * 300;
+            newSize = newSize < 60 ? 60 : newSize;
+        } else {
+            
+            if (rawKB < 100) {
+                return [UIImage imageWithData:rawData];
+            }
+        
+            CGFloat multiple = (int)h / 1280;
+            thumbW /= multiple;
+            thumbH /= multiple;
+            newSize = thumbW * thumbH / pow(1280 * multiple, 2) * 300;
+            newSize = newSize < 100 ? 100 : newSize;
+        }
+    } else if (scale > 0.5) { // 2:1 ~ 16:9
+        
+        if (rawKB < 100) {
+            return [UIImage imageWithData:rawData];
+        }
+        
+        CGFloat multiple = h < 1280 ? 1 : (int)h / 1280;
+        thumbW /= multiple;
+        thumbH /= multiple;
+        newSize = (thumbW * thumbH) / (1440 * 2560)  * 200;
+        newSize = newSize < 100 ? 100 : newSize;
+    } else { // <= 2:1
+        
+        if (rawKB < 100) {
+            return [UIImage imageWithData:rawData];
+        }
+        
+        CGFloat multiple = h < 1280 ? 1 : (int)h / 1280;
+        thumbW /= multiple;
+        thumbH /= multiple;
+        newSize = (thumbW * thumbH) / (1280 * (1280 / scale)) * 500;
+        newSize = newSize < 100 ? 100 : newSize;
+    }
+    
+    return [self resizeToWidth:thumbW height:thumbH targetSize:newSize];
+}
+
+- (UIImage *)resizeToWidth:(CGFloat)width height:(CGFloat)height targetSize:(CGFloat)target {
+    
+    UIGraphicsBeginImageContext(CGSizeMake(width, height));
+    [self drawInRect:CGRectMake(0, 0, width, height)];
+    UIImage *newImg = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return [newImg compressToTarget:target];
+}
+
+- (UIImage *)compressToTarget:(CGFloat)target {
+    
+    UIImage *thumbImage = [self fixOrientation];
+    
+    CGFloat qualityCompress = 0.1;
+    NSData *imageData = UIImageJPEGRepresentation(thumbImage, qualityCompress);
+    CGFloat kb = imageData.length / 1024.0;
+    
+    while (kb > target && qualityCompress <= 0.8) {
+        qualityCompress += 0.1;
+
+        imageData = UIImageJPEGRepresentation(thumbImage, qualityCompress);
+        kb = imageData.length / 1024.0;
+        thumbImage = [UIImage imageWithData:imageData];
+    }
+    
+#ifdef DEBUG
+    NSLog(@"图片压缩之后 == %f KB", kb);
+    // Debug下临时存放
+    NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"temp.jpg"];
+    [[NSFileManager defaultManager] createFileAtPath:filePath contents:imageData attributes:nil];
+#endif
+    
+    return thumbImage;
+}
+
+- (UIImage *)fixOrientation {
+    
+    if (self.imageOrientation == UIImageOrientationUp) {
+        return self;
+    }
+    
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    
+    switch (self.imageOrientation) {
+            
+        case UIImageOrientationDown:
+        case UIImageOrientationDownMirrored:
+            
+            transform = CGAffineTransformTranslate(transform, self.size.width, self.size.height);
+            transform = CGAffineTransformRotate(transform, M_PI);
+            break;
+        case UIImageOrientationLeft:
+        case UIImageOrientationLeftMirrored:
+            
+            transform = CGAffineTransformTranslate(transform, self.size.width, 0);
+            transform = CGAffineTransformRotate(transform, M_PI_2);
+            break;
+        case UIImageOrientationRight:
+        case UIImageOrientationRightMirrored:
+            
+            transform = CGAffineTransformTranslate(transform, 0, self.size.height);
+            transform = CGAffineTransformRotate(transform, -M_PI_2);
+            break;
+        default:
+            break;
+    }
+    
+    switch (self.imageOrientation) {
+            
+        case UIImageOrientationUpMirrored:
+        case UIImageOrientationDownMirrored:
+            
+            transform = CGAffineTransformTranslate(transform, self.size.width, 0);
+            transform = CGAffineTransformScale(transform, -1, 1);
+            break;
+        case UIImageOrientationLeftMirrored:
+        case UIImageOrientationRightMirrored:
+            
+            transform = CGAffineTransformTranslate(transform, self.size.height, 0);
+            transform = CGAffineTransformScale(transform, -1, 1);
+            break;
+        default:
+            break;
+    }
+    
+    CGContextRef ctx = CGBitmapContextCreate(NULL, self.size.width, self.size.height,
+                                             CGImageGetBitsPerComponent(self.CGImage), 0,
+                                             CGImageGetColorSpace(self.CGImage),
+                                             CGImageGetBitmapInfo(self.CGImage));
+    CGContextConcatCTM(ctx, transform);
+    
+    switch (self.imageOrientation) {
+            
+        case UIImageOrientationLeft:
+        case UIImageOrientationLeftMirrored:
+        case UIImageOrientationRight:
+        case UIImageOrientationRightMirrored:
+            
+            CGContextDrawImage(ctx, CGRectMake(0, 0, self.size.height, self.size.width), self.CGImage);
+            break;
+        default:
+            CGContextDrawImage(ctx, CGRectMake(0, 0, self.size.width, self.size.height), self.CGImage);
+            break;
+    }
+    
+    CGImageRef cgimg = CGBitmapContextCreateImage(ctx);
+    UIImage *fixImg = [UIImage imageWithCGImage:cgimg];
+    CGContextRelease(ctx);
+    CGImageRelease(cgimg);
+    
+    return fixImg;
 }
 
 @end

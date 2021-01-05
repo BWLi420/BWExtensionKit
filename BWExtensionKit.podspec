@@ -45,26 +45,34 @@ Pod::Spec.new do |spec|
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   # spec.dependency "JSONKit", "~> 1.4"
 
-  spec.subspec "Category" do |cg|
+  spec.subspec "Category" do |cg| # 分类扩展
     cg.source_files = "BWExtensionKit/Category/*.{h,m}"
     cg.frameworks   = "Security"
   end
   
-  spec.subspec "MHud" do |mu|
+  spec.subspec "MHud" do |mu| # 封装 MBProgressHUD
     mu.source_files = "BWExtensionKit/MHud/*.{h,m}"
     mu.dependency "MBProgressHUD"
     mu.frameworks = "UIKit", "Foundation"
   end
   
-  spec.subspec "SHud" do |su|
+  spec.subspec "SHud" do |su| # 封装 SVProgressHUD
     su.source_files = "BWExtensionKit/SHud/*.{h,m}"
     su.dependency "SVProgressHUD"
     su.frameworks = "UIKit", "Foundation"
   end
   
-  spec.subspec "GeneralTool" do |gt|
-    gt.source_files = "BWExtensionKit/GeneralTool/*.{h,m}"
+  spec.subspec "GeneralTool" do |gt| # 工具类
+    gt.source_files = "BWExtensionKit/GeneralTool/**/*.{h,m}"
     gt.frameworks = "Foundation"
+    
+    gt.subspec "Location" do |loc| # 定位
+      loc.source_files = "BWExtensionKit/GeneralTool/Location/*.{h,m}"
+    end
+    
+    gt.subspec "Regular" do |rg| # 正则
+      rg.source_files = "BWExtensionKit/GeneralTool/Regular/*.{h,m}"
+    end
   end
   
   # 依赖库

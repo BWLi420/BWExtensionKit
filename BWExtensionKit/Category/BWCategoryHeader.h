@@ -10,6 +10,8 @@
 
 //Foundation
 #import <BWExtensionKit/NSObject+BWExtension.h>
+#import <BWExtensionKit/NSString+BWExtension.h>
+#import <BWExtensionKit/NSDictionary+BWExtension.h>
 //UIKit
 #import <BWExtensionKit/UIView+BWExtension.h>
 #import <BWExtensionKit/UIColor+BWExtension.h>
