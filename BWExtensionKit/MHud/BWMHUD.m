@@ -522,11 +522,14 @@ static const CGFloat delayTime = 1.2;
 /// 获取时长
 + (CGFloat)getDelayTime:(NSString *)msg {
     
+    CGFloat time = delayTime;
     if ([BWMHUD share].config.autoTime) {
-        return msg.length * 0.06 + 0.5;
-    } else {
-        return delayTime;
+        CGFloat new = msg.length * 0.06 + 0.5;
+        if (new > time) {
+            time = new;
+        }
     }
+    return time;
 }
 
 @end
