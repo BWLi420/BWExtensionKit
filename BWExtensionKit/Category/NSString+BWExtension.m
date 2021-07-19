@@ -84,6 +84,13 @@
     return dict;
 }
 
+- (NSString *)bw_urlEncoded {
+    
+    BWCheakNilStr
+    
+    return [self stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+}
+
 #pragma mark -------- MD5 --------
 - (NSString *)md5_32 {
     return [self md5To32:YES];

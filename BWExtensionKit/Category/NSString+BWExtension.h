@@ -18,6 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 字符串转字典
 - (NSDictionary *)bw_toDictionary;
 
+/// URL编码
+- (NSString *)bw_urlEncoded;
+
 #pragma mark -------- MD5 --------
 - (NSString *)md5_32;
 - (NSString *)md5_16;
