@@ -62,18 +62,18 @@ Pod::Spec.new do |spec|
     su.frameworks = "UIKit", "Foundation"
   end
   
-  spec.subspec "GeneralTool" do |gt| # 工具类
-    gt.source_files = "BWExtensionKit/GeneralTool/**/*.{h,m}"
-    gt.frameworks = "Foundation"
+  # spec.subspec "GeneralTool" do |gt| # 工具类
+  #   gt.source_files = "BWExtensionKit/GeneralTool/**/*.{h,m}"
+  #   gt.frameworks = "Foundation"
     
-    gt.subspec "Location" do |loc| # 定位
-      loc.source_files = "BWExtensionKit/GeneralTool/Location/*.{h,m}"
-    end
+  #   gt.subspec "Location" do |loc| # 定位
+  #     loc.source_files = "BWExtensionKit/GeneralTool/Location/*.{h,m}"
+  #   end
     
-    gt.subspec "Regular" do |rg| # 正则
-      rg.source_files = "BWExtensionKit/GeneralTool/Regular/*.{h,m}"
-    end
-  end
+  #   gt.subspec "Regular" do |rg| # 正则
+  #     rg.source_files = "BWExtensionKit/GeneralTool/Regular/*.{h,m}"
+  #   end
+  # end
   
   # 依赖库
 #  spec.dependency "JJException"

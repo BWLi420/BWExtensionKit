@@ -192,28 +192,49 @@
     return totalspace;
 }
 
-+ (void)bw_idfa:(void(^)(NSString * _Nullable idfa))comption {
++ (NSString * _Nullable)bw_idfa {
     
-    __block NSString *idfa = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];
-    
-    if (!idfa || [idfa isEqualToString:@"00000000-0000-0000-0000-000000000000"]) {
+    __block NSString *idfa = [[NSUserDefaults standardUserDefaults] valueForKeyPath:@"BW-Device-IDFA"];
+    if (idfa == nil || [idfa isEqualToString:@"00000000-0000-0000-0000-000000000000"]) {
         
-        if (@available(iOS 14, *)) {
+        idfa = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+        
+        if (@available(iOS 14.0, *)) {
             
-            if (ATTrackingManager.trackingAuthorizationStatus == ATTrackingManagerAuthorizationStatusAuthorized) {
+            [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
                 
-                idfa = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];
-                if (comption) {
-                    comption(idfa);
+                if (status == ATTrackingManagerAuthorizationStatusAuthorized) {
+                    
+                    // 获取到权限后，获取idfa
+                    if (ATTrackingManager.trackingAuthorizationStatus == ATTrackingManagerAuthorizationStatusAuthorized) {
+                        
+                        idfa = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];
+                        
+                        // 保存
+                        [[NSUserDefaults standardUserDefaults] setValue:idfa forKeyPath:@"BW-Device-IDFA"];
+                        [[NSUserDefaults standardUserDefaults] synchronize];
+                    } else {
+                        NSLog(@"请在设置-隐私-跟踪中允许App请求跟踪");
+                    }
                 }
+            }];
+        } else {
+            
+            if ([[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]) {
+                
+                // 获取idfa
+                idfa = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];
+                
+                // 保存
+                [[NSUserDefaults standardUserDefaults] setValue:idfa forKeyPath:@"BW-Device-IDFA"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+            } else {
+                NSLog(@"请在设置-隐私-广告中打开广告跟踪功能");
             }
         }
-    } else {
-        
-        if (comption) {
-            comption(idfa);
-        }
     }
+    
+    return idfa;
 }
 
 + (NSString *)bw_idfv {
